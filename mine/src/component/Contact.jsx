@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import emailjs from '@emailjs/browser';
+import React, { useRef } from "react";
+import emailjs from "@emailjs/browser";
 
 const Contact = ({ isDarkMode, textColor, cardBackground }) => {
   const form = useRef();
@@ -9,108 +9,141 @@ const Contact = ({ isDarkMode, textColor, cardBackground }) => {
 
     emailjs
       .sendForm(
-        'service_rfj3i57',     // ⬅️ Replace with your actual service ID from EmailJS
-        'template_blqcy0d',    // ⬅️ Replace with your actual template ID from EmailJS
+        "service_rfj3i57",
+        "template_blqcy0d",
         form.current,
-        'MCMZqb4dIcxqwYyH2'      // ⬅️ Replace with your actual public key from EmailJS
+        "MCMZqb4dIcxqwYyH2"
       )
       .then(
-        (result) => {
-          alert('Message sent successfully!');
+        () => {
+          alert("Message sent successfully!");
+          e.target.reset();
         },
-        (error) => {
-          alert('Failed to send the message, please try again.');
+        () => {
+          alert("Failed to send the message. Please try again.");
         }
       );
-
-    e.target.reset();
   };
+
+  const inputStyle = `w-full px-5 py-4 rounded-2xl transition-all outline-none border 
+  focus:ring-2 focus:ring-blue-500`;
 
   return (
     <section
-      className="py-20"
-      style={{ backgroundColor: isDarkMode ? '#2d3748' : '#e0e0e0', color: textColor }}
+      className="min-h-screen py-28 px-6 transition-all duration-300"
+      style={{
+        backgroundColor: isDarkMode ? "#1f2937" : "#f3f4f6",
+        color: textColor,
+      }}
     >
-      <div className="container mx-auto px-6">
-        <h2
-          className="text-4xl font-bold text-center text-blue-400 mt-6"
-          style={{ color: textColor }}
-        >
-          Get In Touch
-        </h2>
+      <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-start">
+
+        {/* LEFT SIDE */}
+        <div className="space-y-6">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-blue-100 text-blue-600 text-sm font-semibold uppercase">
+            Available for work
+          </span>
+
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+            Let’s build something{" "}
+            <span className="text-blue-500">remarkable</span> together.
+          </h1>
+
+          <p className="text-lg opacity-80 max-w-md">
+            I'm always open to new opportunities and collaborations.
+            Whether you have a project or just want to say hi —
+            I’ll respond within 24 hours.
+          </p>
+
+          <div className="pt-6 space-y-4">
+            <div>
+              <h3 className="font-bold">Email</h3>
+              <p className="opacity-80">creators1885@gmail.com</p>
+            </div>
+            <div>
+              <h3 className="font-bold">Location</h3>
+              <p className="opacity-80">India</p>
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT SIDE FORM */}
         <div
-          className="max-w-xl mx-auto p-8 rounded-xl shadow-lg hover:scale-105 duration-100 mt-10"
+          className="rounded-3xl p-10 shadow-xl transition-all duration-300"
           style={{ backgroundColor: cardBackground }}
         >
-          <p className="text-lg text-center mb-6" style={{ color: textColor }}>
-            I'm always open to new opportunities and collaborations. Feel free to reach out!
-          </p>
-          <form ref={form} onSubmit={sendEmail} className="space-y-6">
+          <form ref={form} onSubmit={sendEmail} className="space-y-8">
+
+            {/* Name */}
             <div>
-              <label htmlFor="name" className="block text-sm font-bold mb-2" style={{ color: textColor }}>
-                Name
+              <label className="block text-sm font-semibold mb-2">
+                Full Name
               </label>
               <input
                 type="text"
-                id="name"
                 name="name"
                 required
-                className="shadow appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{
-                  backgroundColor: isDarkMode ? '#374151' : '#f4f4f4',
-                  color: isDarkMode ? '#ffffff' : '#222222'
-                }}
                 placeholder="Your Name"
+                className={inputStyle}
+                style={{
+                  backgroundColor: isDarkMode ? "#374151" : "#ffffff",
+                  color: isDarkMode ? "#ffffff" : "#111827",
+                }}
               />
             </div>
+
+            {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-bold mb-2" style={{ color: textColor }}>
-                Email
+              <label className="block text-sm font-semibold mb-2">
+                Email Address
               </label>
               <input
                 type="email"
-                id="email"
                 name="email"
                 required
-                className="shadow appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-                style={{
-                  backgroundColor: isDarkMode ? '#374151' : '#f4f4f4',
-                  color: isDarkMode ? '#ffffff' : '#222222'
-                }}
                 placeholder="your.email@example.com"
+                className={inputStyle}
+                style={{
+                  backgroundColor: isDarkMode ? "#374151" : "#ffffff",
+                  color: isDarkMode ? "#ffffff" : "#111827",
+                }}
               />
             </div>
+
+            {/* Message */}
             <div>
-              <label htmlFor="message" className="block text-sm font-bold mb-2" style={{ color: textColor }}>
-                Message
+              <label className="block text-sm font-semibold mb-2">
+                Your Message
               </label>
               <textarea
-                id="message"
                 name="message"
-                rows="6"
+                rows="5"
                 required
-                className="shadow appearance-none border rounded-lg w-full py-3 px-4 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Tell me about your project..."
+                className={inputStyle + " resize-none"}
                 style={{
-                  backgroundColor: isDarkMode ? '#374151' : '#f4f4f4',
-                  color: isDarkMode ? '#ffffff' : '#222222'
+                  backgroundColor: isDarkMode ? "#374151" : "#ffffff",
+                  color: isDarkMode ? "#ffffff" : "#111827",
                 }}
-                placeholder="Your message..."
-              ></textarea>
+              />
             </div>
-            <div className="text-center">
+
+            {/* Button */}
+            <div>
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
+                className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-95"
               >
                 Send Message
               </button>
             </div>
+
           </form>
         </div>
+
       </div>
     </section>
   );
 };
 
 export default Contact;
- 
