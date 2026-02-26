@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // hamburger & close icons
+import { Menu, X, Sun, Moon } from "lucide-react";
 import MyLogo from "../assets/Logoimg.png";
 
 const Navbar = ({
@@ -14,76 +14,113 @@ const Navbar = ({
   bgSecondary,
 }) => {
   return (
-    <nav
-      className="fixed w-full top-0 z-50 transition-all duration-300"
-      style={{ backgroundColor: bgSecondary, boxShadow: shadow }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
-        {/* Logo */}
-        <Link to="/" className="text-xl font-bold" style={{ color: primaryColor }}>
-          <img
-            src={MyLogo}
-            alt="Logo"
-            className="h-10 w-10 object-contain rounded-full"
-          />
-        </Link>
+    <>
+      <nav
+        className="fixed w-full top-0 z-50 transition-all duration-300 backdrop-blur-xl border-b"
+        style={{
+          backgroundColor: bgSecondary,
+          boxShadow: shadow,
+          borderColor: "rgba(255,255,255,0.08)",
+        }}
+      >
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between relative">
 
-        {/* Desktop Menu */}
-        <div className="hidden md:flex space-x-6 items-center">
-          <Link to="/" className="hover:opacity-70">Home</Link>
-          <Link to="/projects" className="hover:opacity-70">Projects</Link>
-          <Link to="/skills" className="hover:opacity-70">Skills</Link>
-          <Link to="/contact" className="hover:opacity-70">Contact</Link>
+          {/* LEFT - Logo */}
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center gap-3">
+              <img
+                src={MyLogo}
+                alt="Logo"
+                className="h-10 w-10 object-contain rounded-full"
+              />
+            </Link>
+          </div>
 
-          {/* Resume Button */}
-          <a
-            href="/Akash CV.pdf" // put your resume file in public/resume.pdf
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-4 py-2 rounded-lg font-medium transition duration-300"
-            style={{ backgroundColor: primaryColor, color: bgColorPrimary }}
-          >
-            Resume
-          </a>
+          {/* CENTER - Navigation */}
+          <div className="absolute left-1/2 -translate-x-1/2 hidden md:flex space-x-8 items-center font-medium">
+            {["Home", "Projects", "Skills", "Contact"].map((item) => (
+              <Link
+                key={item}
+                to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                className="relative group pb-1 transition duration-300"
+                style={{ color: primaryColor }}
+              >
+                {item}
+                <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full group-hover:left-0"></span>
+              </Link>
+            ))}
+          </div>
 
-          {/* Dark/Light Mode */}
-          <button
-            onClick={toggleDarkMode}
-            className="ml-3 px-3 py-1 rounded-lg text-sm "
-            style={{ backgroundColor: primaryColor, color: bgColorPrimary }}
-          >
-            {isDarkMode ? "Light Mode" : "Dark Mode"}
-          </button>
+          {/* RIGHT - Buttons */}
+          <div className="flex items-center gap-4">
+            <a
+              href="/Akash CV.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden md:inline-block px-5 py-2 rounded-full font-semibold text-sm transition hover:scale-105"
+              style={{
+                backgroundColor: primaryColor,
+                color: bgColorPrimary,
+              }}
+            >
+              Resume
+            </a>
+
+            <button
+              onClick={toggleDarkMode}
+              className="hidden md:flex w-10 h-10 items-center justify-center rounded-full transition"
+              style={{ color: primaryColor }}
+            >
+              {isDarkMode ? "☀️" : "🌙"}
+            </button>
+
+            <button
+              onClick={toggleMenu}
+              className="md:hidden p-2"
+              style={{ color: primaryColor }}
+            >
+              {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+
         </div>
+      </nav>
 
-        {/* Mobile Hamburger Button */}
-        <button
-          onClick={toggleMenu}
-          className="md:hidden p-2 rounded-lg focus:outline-none"
-          style={{ color: primaryColor }}
-        >
-          {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-transform duration-300 ${isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        style={{
+          backgroundColor: bgSecondary,
+          backdropFilter: "blur(20px)",
+        }}
+      >
+        <div className="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold">
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div
-          className="md:hidden flex flex-col space-y-4 px-6 py-4"
-          style={{ backgroundColor: bgSecondary }}
-        >
-          <Link to="/" onClick={toggleMenu}>Home</Link>
-          <Link to="/projects" onClick={toggleMenu}>Projects</Link>
-          <Link to="/skills" onClick={toggleMenu}>Skills</Link>
-          <Link to="/contact" onClick={toggleMenu}>Contact</Link>
+          {["Home", "Projects", "Skills", "Contact"].map((item) => (
+            <Link
+              key={item}
+              to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+              onClick={toggleMenu}
+              className="relative group pb-1 transition duration-300"
+              style={{ color: primaryColor }}
+            >
+              {item}
 
-          {/* Resume Button in Mobile */}
+              {/* Underline */}
+              <span className="absolute left-1/2 bottom-0 h-[2px] w-0 bg-blue-500 transition-all duration-300 ease-in-out group-hover:w-full group-hover:left-0"></span>
+            </Link>
+          ))}
+
           <a
             href="/Akash CV.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-4 py-2 rounded-lg font-medium transition duration-300 text-center"
-            style={{ backgroundColor: primaryColor, color: bgColorPrimary }}
+            className="px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 shadow-md"
+            style={{
+              backgroundColor: primaryColor,
+              color: bgColorPrimary,
+            }}
             onClick={toggleMenu}
           >
             Resume
@@ -94,14 +131,17 @@ const Navbar = ({
               toggleDarkMode();
               toggleMenu();
             }}
-            className="px-3 py-1 rounded-lg text-sm"
-            style={{ backgroundColor: primaryColor, color: bgColorPrimary }}
+            className="px-4 py-2 rounded-full text-sm"
+            style={{
+              backgroundColor: primaryColor,
+              color: bgColorPrimary,
+            }}
           >
             {isDarkMode ? "Light Mode" : "Dark Mode"}
           </button>
         </div>
-      )}
-    </nav>
+      </div>
+    </>
   );
 };
 
